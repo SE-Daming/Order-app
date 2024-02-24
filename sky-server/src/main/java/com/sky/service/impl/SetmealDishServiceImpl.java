@@ -7,6 +7,7 @@ import com.sky.service.SetmealDishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 @Service
 public class SetmealDishServiceImpl implements SetmealDishService{
@@ -22,6 +23,17 @@ public class SetmealDishServiceImpl implements SetmealDishService{
         setmealDishes.stream().forEach(setmealDish->{
             setmealDish.setSetmealId(setmealDTO.getId());
             setmealDishMapper.save(setmealDish);
+        });
+    }
+
+    /**
+     * 删除套餐的菜品
+     */
+    @Override
+    public void deleteById(String ids) {
+        String[]id=ids.split(",");
+        Arrays.asList(id).stream().forEach(i->{
+            setmealDishMapper.deleteBySetmealId(Long.valueOf(i));
         });
     }
 }

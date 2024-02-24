@@ -57,6 +57,7 @@ public class SetmealController {
     @ApiOperation(value = "删除套餐")
     public Result deleteByIds(String ids){
         setmealService.deleteById(ids);
+        setmealDishService.deleteById(ids);
         return Result.success();
     }
 
