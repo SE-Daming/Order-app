@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.DishMapper">
+
+
+
+    <!--    分页查询-->
+    <select id="pageQuery" resultType="com.sky.vo.DishVO">
+        SELECT d.*, c.name AS categoryName
+        FROM dish d
+        JOIN category c ON d.category_id = c.id
+        <where>
+            <if test="name !=null and name !=''">
+                and d.name like concat('%',#{name},'%')
+            </if>
+
+            <if test="status !=null and status !=''">
+                and d.status=#{status}
+            </if>
+
+            <if test="categoryId !=null and categoryId !=''">
+                and category_id=#{categoryId}
+            </if>
+        </where>
+    </select>
+
+<!--    按id查询dish-->
+    <select id="getById" resultType="com.sky.vo.DishVO">
+        SELECT d.*, c.name AS categoryName
+        FROM dish d
+        JOIN category c ON d.category_id = c.id
+        where d.id=#{id}
+    </select>
+
+<!--    按id删除dish-->
+    <delete id="deleteById">
+        DELETE FROM dish
+        WHERE id=#{i}
+    </delete>
+
+<!--    修改菜品、菜品状态-->
+    <update id="update">
+        update dish
+        <set>
+            <if test="name !=null">name=#{name},</if>
+            <if test="categoryId !=null">category_id=#{categoryId},</if>
+            <if test="price !=null">price=#{price},</if>
+            <if test="image !=null">image=#{image},</if>
+            <if test="description !=null">description=#{description},</if>
+            <if test="status !=null">status=#{status},</if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>
