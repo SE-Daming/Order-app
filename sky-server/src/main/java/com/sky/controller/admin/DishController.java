@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/admin/dish")
 @Api(tags = "菜品管理")
@@ -90,5 +92,12 @@ public class DishController {
     public Result changeStatus(@PathVariable int status,Long id){
         dishService.changeStatus(status,id);
         return Result.success();
+    }
+
+    @GetMapping("list")
+    @ApiOperation(value = "根据分类id查询菜品")
+    public Result<List<DishVO>>selectByCategoryId(Long categoryId){
+        List<DishVO> dishVO=dishService.getByCategoryId(categoryId);
+        return Result.success(dishVO);
     }
 }
