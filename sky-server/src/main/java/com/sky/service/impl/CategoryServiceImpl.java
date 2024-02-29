@@ -81,4 +81,12 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findByType(int type) {
         return categoryMapper.findByType(type);
     }
+
+    /**
+     * 小程序端查询分类信息
+     */
+    @Override
+    public List<Category> selectAll() {
+        return categoryMapper.selectAll();
+    }
 }

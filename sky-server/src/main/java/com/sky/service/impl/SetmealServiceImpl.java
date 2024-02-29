@@ -6,22 +6,32 @@ import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
 import com.sky.entity.SetmealDish;
+import com.sky.mapper.DishMapper;
+import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.SetmealService;
+import com.sky.vo.DishVO;
 import com.sky.vo.SetmealVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 @Service
 public class SetmealServiceImpl implements SetmealService {
     @Autowired
     SetmealMapper setmealMapper;
+
+    @Autowired
+    SetmealDishMapper setmealDishMapper;
+
+    @Autowired
+    DishMapper dishMapper;
     /**
      * 新增套餐、涉及到套餐和套餐食品两张表
      */
@@ -89,5 +99,27 @@ public class SetmealServiceImpl implements SetmealService {
                 .id(id)
                 .build();
         setmealMapper.update(setmeal);
+    }
+
+    /**
+     * 根据分类id查询套餐
+     */
+    @Override
+    public List<SetmealVO> getByCategoryId(Long categoryId) {
+        return setmealMapper.getByCategoryId(categoryId);
+    }
+
+    /**
+     * 根据套餐id查询菜品
+     */
+    @Override
+    public List<DishVO> getDishById(Long id) {
+        List<DishVO>list=new ArrayList<>();
+        List<Long> dishIds = setmealDishMapper.getDishIdBySetmealId(id);
+        dishIds.stream().forEach(dishId->{
+            DishVO dishVO = dishMapper.getById(dishId);
+            list.add(dishVO);
+        });
+        return list;
     }
 }

@@ -6,11 +6,15 @@ import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
 import com.sky.enumeration.OperationType;
+import com.sky.vo.DishVO;
 import com.sky.vo.SetmealVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 @Mapper
 public interface SetmealMapper {
@@ -61,4 +65,21 @@ public interface SetmealMapper {
      */
     @AutoFill(OperationType.UPDATE)
     void update(Setmeal setmeal);
+
+    /**
+     * 根据分类id查询套餐
+     * @param categoryId
+     * @return
+     */
+    @Select("select * from setmeal where category_id=#{categoryId}")
+    List<SetmealVO> getByCategoryId(Long categoryId);
+
+    /**
+     * 根据id查询价格
+     * @param setmealId
+     * @return
+     */
+    @Select("select price from setmeal where id=#{setmealId}")
+    BigDecimal getPriceById(Long setmealId);
+
 }

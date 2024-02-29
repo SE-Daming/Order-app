@@ -49,4 +49,10 @@ public interface CategoryMapper {
      */
     @Select("select * from category where type=#{type}")
     List<Category> findByType(int type);
+
+    /**
+     * 小程序端查询分类信息
+     */
+    @Select("select * from category")
+    List<Category> selectAll();
 }

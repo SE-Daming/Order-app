@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper
@@ -60,4 +61,12 @@ public interface DishMapper {
 
     @Select("select * from dish where category_id=#{categoryId}")
     List<DishVO> getByCategoryId(Long categoryId);
+
+    /**
+     * 根据id查询价格
+     * @param dishId
+     * @return
+     */
+    @Select("select price from dish where id=#{dishId}")
+    BigDecimal getPriceById(Long dishId);
 }
