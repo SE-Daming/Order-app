@@ -67,6 +67,14 @@ public interface ShoppingCartMapper {
     /**
      * 删除所有商品
      */
-    @Delete("delete * from shoppig_cart")
+    @Delete("delete  from shopping_cart")
     void clean();
+
+    /**
+     * 根据用户id查询购物车
+     * @param currentId
+     * @return
+     */
+    @Select("select * from shopping_cart where user_id=#{currentId}")
+    List<ShoppingCart> getByUserId(Long currentId);
 }
