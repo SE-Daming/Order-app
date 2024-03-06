@@ -56,7 +56,7 @@
         order by order_time desc
     </select>
 
-<!--    取消订单-->
+    <!--    取消订单-->
     <update id="cancelOrder">
         update orders set status=6,cancel_time=NOW()
         <if test="cancelReason!=null and cancelReason!=''">,cancel_reason=#{cancelReason}</if>
@@ -69,4 +69,33 @@
         <if test="rejectionReason!=null and rejectionReason!=''">,rejection_reason =#{rejectionReason}</if>
         where id=#{id}
     </update>
+
+<!--    订单统计-->
+
+<!--    封装日期和每日订单-->
+    <select id="orderStatistics1" resultType="com.sky.vo.OrderReportVO">
+        select date (order_time)dateList ,count(*)orderCountList from orders
+        where order_time between #{begin} and #{end}
+        GROUP BY DATE(order_time);
+    </select>
+
+    <!--    封装日期和每日有效订单 -->
+    <select id="orderStatistics2" resultType="com.sky.vo.OrderReportVO">
+        select date (order_time)dateList ,count(*)validOrderCountList from orders
+        where order_time between #{begin} and #{end} and status not in(6,7)
+        GROUP BY DATE(order_time);
+    </select>
+
+<!--    封装订单总数-->
+    <select id="orderStatistics3" resultType="Integer">
+        select count(*) from orders
+        where order_time between #{begin} and #{end};
+    </select>
+
+<!--    有效订单总数-->
+    <select id="orderStatistics4" resultType="java.lang.Integer">
+        select count(*) from orders
+        where order_time between #{begin} and #{end} and status not in(6,7);
+    </select>
+
 </mapper>

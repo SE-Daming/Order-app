@@ -7,6 +7,7 @@ import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersRejectionDTO;
 import com.sky.entity.OrderDetail;
 import com.sky.entity.Orders;
+import com.sky.vo.OrderReportVO;
 import com.sky.vo.OrderVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -119,4 +120,37 @@ public interface OrdersMapper {
      */
     @Select("select count(*) from orders where status=4")
     Integer getTotalStatus4();
+
+    /**
+     * 封装日期和每日订单
+     * @param begin
+     * @param end
+     * @return
+     */
+    List<OrderReportVO> orderStatistics1(String begin, String end);
+
+    /**
+     * 封装日期和每日有效订单
+     * 设状态为6、7的为无效订单
+     * @param begin
+     * @param end
+     * @return
+     */
+    List<OrderReportVO> orderStatistics2(String begin, String end);
+
+    /**
+     * 订单总数
+     * @param begin
+     * @param end
+     * @return
+     */
+    Integer orderStatistics3(String begin, String end);
+
+    /**
+     * 有效订单总数
+     * @param begin
+     * @param end
+     * @return
+     */
+    Integer orderStatistics4(String begin, String end);
 }
