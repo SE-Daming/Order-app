@@ -9,3 +9,9 @@ sky:
   wechat:
     appid: wx6fc4322ae9fb6004
     secret: 90aecaacfac4f564c6a50ff09371d33c
+
+  alioss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key-id: LTAI5t7EsiVLWGqA5GXXtdfN
+    access-key-secret: BKweeA3ioldqbwopSYzTltBrBr5D9U
+    bucket-name: file-bucket-for-sky

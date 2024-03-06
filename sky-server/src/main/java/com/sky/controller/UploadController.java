@@ -32,7 +32,7 @@ public class UploadController {
      * 2、file是一个临时文件所以要转存一下
      */
 
-    @PostMapping("upload")
+    @PostMapping("upload2")
     public Result<String> uploadFile(MultipartFile file){ //此处命名有说法
         log.info("file :{}",file.toString());
         String originalName=file.getOriginalFilename();
