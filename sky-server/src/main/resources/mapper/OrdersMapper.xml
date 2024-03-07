@@ -100,4 +100,13 @@
         where order_time between #{begin} and #{end} and status not in(6,7);
     </select>
 
+<!--    营业额统计-->
+    <select id="getAmountBetweenTime" resultType="com.sky.vo.TurnoverReportVO">
+        select date (order_time)dateList ,sum(amount)turnoverList from orders
+        where order_time between #{begin} and #{end} and status not in(6,7)
+        GROUP BY DATE(order_time)
+        ORDER BY dateList ;
+    </select>
+
+
 </mapper>

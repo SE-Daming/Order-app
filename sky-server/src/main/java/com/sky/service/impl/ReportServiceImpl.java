@@ -1,8 +1,10 @@
 package com.sky.service.impl;
 
+import com.sky.entity.Orders;
 import com.sky.mapper.OrdersMapper;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
+import com.sky.vo.TurnoverReportVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,4 +76,37 @@ public class ReportServiceImpl implements ReportService {
                 .build();
         return orderReportVO;
     }
+
+    /**
+     * 营业额统计
+     *
+     */
+    @Override
+    public TurnoverReportVO turnoverStatistics(String begin, String end) {
+
+        List<TurnoverReportVO>turnoverReportVOList=ordersMapper.getAmountBetweenTime(begin,end);
+        StringBuilder dateList=new StringBuilder();
+        StringBuilder turnoverList=new StringBuilder();
+
+        for(int i=0;i<turnoverReportVOList.size();i++){
+            String s=turnoverReportVOList.get(i).getDateList();
+            String ts=turnoverReportVOList.get(i).getTurnoverList();
+            if(i==0){
+                dateList.append(s);
+                turnoverList.append(ts==null?0:ts);
+            }
+            else {
+                dateList.append(",").append(s);
+                turnoverList.append(",").append(ts==null?0:ts);
+            }
+        }
+
+        TurnoverReportVO turnoverReportVO=TurnoverReportVO.builder()
+                .dateList(String.valueOf(dateList))
+                .turnoverList(String.valueOf(turnoverList))
+                .build();
+        return turnoverReportVO;
+    }
+
+
 }

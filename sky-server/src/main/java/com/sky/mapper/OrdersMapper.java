@@ -9,6 +9,7 @@ import com.sky.entity.OrderDetail;
 import com.sky.entity.Orders;
 import com.sky.vo.OrderReportVO;
 import com.sky.vo.OrderVO;
+import com.sky.vo.TurnoverReportVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -153,4 +154,14 @@ public interface OrdersMapper {
      * @return
      */
     Integer orderStatistics4(String begin, String end);
+
+    /**
+     * 找出时间段内状态为已完成的订单
+     * @param begin
+     * @param end
+     * @return
+     */
+    List<TurnoverReportVO> getAmountBetweenTime(String begin, String end);
+
+
 }
