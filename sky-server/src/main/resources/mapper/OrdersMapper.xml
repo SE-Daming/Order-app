@@ -76,14 +76,16 @@
     <select id="orderStatistics1" resultType="com.sky.vo.OrderReportVO">
         select date (order_time)dateList ,count(*)orderCountList from orders
         where order_time between #{begin} and #{end}
-        GROUP BY DATE(order_time);
+        GROUP BY DATE(order_time)
+        ORDER BY dateList ;
     </select>
 
     <!--    封装日期和每日有效订单 -->
     <select id="orderStatistics2" resultType="com.sky.vo.OrderReportVO">
         select date (order_time)dateList ,count(*)validOrderCountList from orders
         where order_time between #{begin} and #{end} and status not in(6,7)
-        GROUP BY DATE(order_time);
+        GROUP BY DATE(order_time)
+        ORDER BY dateList ;
     </select>
 
 <!--    封装订单总数-->

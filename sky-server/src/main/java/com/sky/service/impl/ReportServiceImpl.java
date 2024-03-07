@@ -37,26 +37,32 @@ public class ReportServiceImpl implements ReportService {
         //得到每一个对象的每日订单并拼接
         StringBuilder orderCountList=new StringBuilder();
         for(int i=0;i<orderReportVO1.size();i++){
+            String s = orderReportVO1.get(i).getOrderCountList();
             if(i==0){
-                orderCountList.append(orderReportVO1.get(0).getOrderCountList());
+                orderCountList.append(s==null?0:s);
             }
             else{
-                orderCountList.append(",").append(orderReportVO1.get(i).getOrderCountList());
+                orderCountList.append(",").append(s==null?0:s);
             }
         }
 
         //得到每一个对象的每日有效订单并拼接
         StringBuilder validOrderCountList=new StringBuilder();
-        for(int i=0;i<orderReportVO1.size();i++){
+        for(int i=0;i<orderReportVO2.size();i++){
+            String s = orderReportVO2.get(i).getValidOrderCountList();
             if(i==0){
-                validOrderCountList.append(orderReportVO1.get(0).getValidOrderCountList());
+                validOrderCountList.append(s==null?0:s);
             }
             else{
-                validOrderCountList.append(",").append(orderReportVO1.get(i).getValidOrderCountList());
+                validOrderCountList.append(",").append(s==null?0:s);
             }
         }
 
-        Double orderCompletionRate=(double)validOrderCount/totalOrderCount;
+        Double orderCompletionRate=0.0;//订单完成率
+        if(totalOrderCount!=0){
+            orderCompletionRate=(double)validOrderCount/totalOrderCount;
+
+        }
 
         OrderReportVO orderReportVO=OrderReportVO.builder()
                 .dateList(String.valueOf(dateList))
