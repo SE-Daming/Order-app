@@ -82,4 +82,11 @@ public interface SetmealMapper {
     @Select("select price from setmeal where id=#{setmealId}")
     BigDecimal getPriceById(Long setmealId);
 
+    /**
+     * 查询给定状态的套参数
+     * @param status
+     * @return
+     */
+    @Select("select count(*)from setmeal where status=#{status}")
+    Integer getNumOfStatus(Integer status);
 }

@@ -3,6 +3,7 @@ package com.sky.controller.admin;
 import com.sky.result.Result;
 import com.sky.service.WorkspaceService;
 import com.sky.vo.BusinessDataVO;
+import com.sky.vo.SetmealOverViewVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,12 @@ public class WorkspaceController {
         LocalDate localDate=LocalDate.now();
         BusinessDataVO businessDataVO=workspaceService.todayData(localDate);
         return Result.success(businessDataVO);
+    }
+
+    @GetMapping("overviewSetmeals")
+    @ApiOperation(value = "套餐总览")
+    public Result<SetmealOverViewVO>setmealOverView(){
+        SetmealOverViewVO setmealOverViewVO=workspaceService.setmealOverview();
+        return Result.success(setmealOverViewVO);
     }
 }
