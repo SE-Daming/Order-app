@@ -199,4 +199,19 @@ public interface OrdersMapper {
     Double getNumOfCompletedOrderToday(LocalDate localDate);
 
     Integer getNumOfStatus(Integer status);
+
+
+
+    /**
+     * 找出超过15分钟未支付的订单id
+     */
+    @Select("select id from orders where status=1 and order_time < now()-interval 15 minute")
+    List<Long> timingCancel();
+
+    /**
+     * 根据id删除订单
+     * @param id
+     */
+    @Delete("delete from orders where id=#{id}")
+    void removeById(Long id);
 }
