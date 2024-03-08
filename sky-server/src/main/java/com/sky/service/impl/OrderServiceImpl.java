@@ -212,10 +212,11 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 订单支付
      * 把订单状态改为2、购物车清空
+     * 结账时间填充
      */
     @Override
     public OrderPaymentVO orderPay(OrdersPaymentDTO ordersPaymentDTO) {
-        ordersMapper.setStatus2(ordersPaymentDTO);
+        ordersMapper.setStatus2(ordersPaymentDTO,LocalDateTime.now());
         shoppingCartMapper.clean();
         return null;
     }

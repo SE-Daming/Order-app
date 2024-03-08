@@ -10,10 +10,7 @@ import com.sky.entity.Orders;
 import com.sky.vo.OrderReportVO;
 import com.sky.vo.OrderVO;
 import com.sky.vo.TurnoverReportVO;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -69,8 +66,8 @@ public interface OrdersMapper {
      * 订单状态改为待接单
      * @param ordersPaymentDTO
      */
-    @Update("update orders set status=2 where number=#{orderNumber}")
-    void setStatus2(OrdersPaymentDTO ordersPaymentDTO);
+    @Update("update orders set status=2,checkout_time=#{time},pay_method=#{ordersPaymentDTO.payMethod} where number=#{ordersPaymentDTO.orderNumber}")
+    void setStatus2(OrdersPaymentDTO ordersPaymentDTO,LocalDateTime time);
 
     /**
      * 取消订单、把订单状态设为6、订单原因若不为空则填充
