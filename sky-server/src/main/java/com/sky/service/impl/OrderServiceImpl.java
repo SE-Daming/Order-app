@@ -246,11 +246,33 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void repetition(String id) {
 
+        //要再来一单的订单
+        Orders orders2=ordersMapper.getById(id);
         //创建订单对象
-        Orders orders=ordersMapper.getById(id);
-        orders.setId(null);
+        Orders orders=Orders.builder()
+                .address(orders2.getAddress())
+                .addressBookId(orders2.getAddressBookId())
+                .amount(orders2.getAmount())
+                .consignee(orders2.getConsignee())
+                .deliveryStatus(orders2.getDeliveryStatus())
+                .userName(orders2.getUserName())
+                .phone(orders2.getPhone())
+                .remark(orders2.getRemark())
+                .userId(orders2.getUserId())
+                .packAmount(orders2.getPackAmount())
+                .tablewareNumber(orders2.getTablewareNumber())
+                .tablewareStatus(orders2.getTablewareStatus())
+                .estimatedDeliveryTime(LocalDateTime.now().plusHours(1l))
+                .build();
+        //订单号
         String orderNumber=String.valueOf(UUID.randomUUID());
         orders.setNumber(orderNumber);
+
+        //订单状态调整为待付款、未支付、默认微信支付
+        orders.setOrderTime(LocalDateTime.now());
+        orders.setStatus(1);
+        orders.setPayMethod(1);
+        orders.setPayStatus(0);
 
         //新增订单
         ordersMapper.save(orders);
