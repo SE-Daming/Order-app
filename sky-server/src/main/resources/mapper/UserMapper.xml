@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.UserMapper">
+
+<!--    封装截至总用户-->
+
+    <select id="userStatisticsTotal" resultType="java.lang.String">
+        <!--占位符不要加引号-->
+        select count(*)totalUserList from user where date(create_time) &lt;= #{currentDate};
+    </select>
+
+<!--    封装新增用户-->
+    <select id="userStatisticsNew" resultType="java.lang.String">
+        select count(*)newUserList from user where date(create_time) = #{currentDate};
+    </select>
+</mapper>

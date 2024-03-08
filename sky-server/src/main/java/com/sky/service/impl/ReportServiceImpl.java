@@ -2,18 +2,29 @@ package com.sky.service.impl;
 
 import com.sky.entity.Orders;
 import com.sky.mapper.OrdersMapper;
+import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
 import com.sky.vo.TurnoverReportVO;
+import com.sky.vo.UserReportVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ReportServiceImpl implements ReportService {
     @Autowired
     OrdersMapper ordersMapper;
+
+    @Autowired
+    UserMapper userMapper;
 
     /**
      * 订单统计
@@ -108,5 +119,56 @@ public class ReportServiceImpl implements ReportService {
         return turnoverReportVO;
     }
 
+    /**
+     * 用户统计
+     * TODO 找出[begin,end]内每一天的总量和新增
+     */
+    @Override
+    public UserReportVO userStatistics(String begin, String end) {
+        log.info("begin :{},end:{}",begin,end);
+        List<UserReportVO>userReportVOList=new ArrayList<>();//要返回的数据集合
 
+        //遍历每一天并封装数据
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate beginDate = LocalDate.parse(begin, formatter);
+        LocalDate endDate = LocalDate.parse(end, formatter);
+
+        LocalDate currentDate = beginDate;
+        while (!currentDate.isAfter(endDate)) {
+            UserReportVO userReportVO=new UserReportVO();
+            //统计截至总量
+            userReportVO.setTotalUserList(userMapper.userStatisticsTotal(currentDate));
+            userReportVO.setNewUserList(userMapper.userStatisticsNew(currentDate));
+            userReportVO.setDateList(String.valueOf(currentDate));
+            //加入集合
+            userReportVOList.add(userReportVO);
+            //日期向后一天
+            currentDate = currentDate.plusDays(1);
+
+        }
+        //创建要返回的对象
+        StringBuilder dateList=new StringBuilder();
+        StringBuilder totalUserList=new StringBuilder();
+        StringBuilder newUserList=new StringBuilder();
+        for(int i=0;i< userReportVOList.size();i++){
+            UserReportVO u=userReportVOList.get(i);
+            if(i==0){
+                dateList.append(u.getDateList());
+                totalUserList.append(u.getTotalUserList());
+                totalUserList.append(u.getNewUserList());
+            }
+            else{
+                dateList.append(","+u.getDateList());
+                totalUserList.append(","+u.getTotalUserList());
+                totalUserList.append(","+u.getNewUserList());
+            }
+        }
+        UserReportVO userReportVO=UserReportVO.builder()
+                .dateList(String.valueOf(dateList))
+                .totalUserList(String.valueOf(totalUserList))
+                .newUserList(String.valueOf(newUserList))
+                .build();
+
+        return userReportVO;
+    }
 }

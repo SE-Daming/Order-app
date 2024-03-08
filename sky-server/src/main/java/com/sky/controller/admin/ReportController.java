@@ -4,6 +4,7 @@ import com.sky.result.Result;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
 import com.sky.vo.TurnoverReportVO;
+import com.sky.vo.UserReportVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,12 @@ public class ReportController {
     public Result<TurnoverReportVO>turnoverReport(String begin,String end){
         TurnoverReportVO turnoverReportVO=reportService.turnoverStatistics(begin,end);
         return Result.success(turnoverReportVO);
+    }
+
+    @GetMapping("userStatistics")
+    @ApiOperation(value = "用户统计接口")
+    public Result<UserReportVO>userReport(String begin,String end){
+        UserReportVO userReportVO=reportService.userStatistics(begin,end);
+        return Result.success(userReportVO);
     }
 }

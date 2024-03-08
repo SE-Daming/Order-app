@@ -1,9 +1,13 @@
 package com.sky.mapper;
 
 import com.sky.entity.User;
+import com.sky.vo.UserReportVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
@@ -21,4 +25,14 @@ public interface UserMapper {
      */
     @Select("select name from user where id=#{userId}")
     String getUserNameById(Long userId);
+
+
+    /**
+     * 封装日期和新增用户
+
+     * @return
+     */
+    String userStatisticsTotal(LocalDate currentDate);
+
+    String userStatisticsNew(LocalDate currentDate);
 }
