@@ -113,5 +113,25 @@
         select id from orders where status=5 and order_time between #{begin} and #{end}
     </select>
 
+<!--    计算给定时间天的营业额-->
+    <select id="getAmountToday" resultType="java.lang.Double">
+        select sum(amount)turnover from orders where date (order_time)=#{localDate}
+    </select>
+
+<!--    当天的有效订单-->
+    <select id="getValidOrderToday" resultType="java.lang.Integer">
+        select count(*)validOrderCount from orders where date (order_time)=#{localDate} and status not in(6,7)
+    </select>
+
+<!--    当天的总订单数-->
+    <select id="getNumOfOrdersToday" resultType="java.lang.Double">
+        select count(*)totalOrderCount from orders where date (order_time)=#{localDate}
+    </select>
+
+<!--    当天完成订单数-->
+    <select id="getNumOfCompletedOrderToday" resultType="java.lang.Double">
+        select count(*)totalOrderCount from orders where date (order_time)=#{localDate} and status=5
+    </select>
+
 
 </mapper>

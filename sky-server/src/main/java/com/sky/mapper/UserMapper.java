@@ -34,5 +34,12 @@ public interface UserMapper {
      */
     String userStatisticsTotal(LocalDate currentDate);
 
+    /**
+     * 当天新增人数
+     * @param localDate
+     * @return
+     */
     String userStatisticsNew(LocalDate currentDate);
+
+
 }

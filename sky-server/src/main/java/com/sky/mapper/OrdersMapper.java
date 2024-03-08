@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -163,6 +164,40 @@ public interface OrdersMapper {
      */
     List<TurnoverReportVO> getAmountBetweenTime(String begin, String end);
 
-
+    /**
+     * 时间范围内新增用户的id
+     * @param begin
+     * @param end
+     * @return
+     */
     List<Long> getIdBetweenTime(String begin, String end);
+
+    /**
+     * 当天的的营业额
+     * @param localDate
+     * @return
+     */
+    Double getAmountToday(LocalDate localDate);
+
+    /**
+     * 当天的有效订单数(有效订单暂定为状态不为6.7)
+     * @param localDate
+     * @return
+     */
+    Integer getValidOrderToday(LocalDate localDate);
+
+    /**
+     *当天的总订单数
+     * @param localDate
+     * @return
+     */
+    Double getNumOfOrdersToday(LocalDate localDate);
+
+
+    /**
+     * 当天完成订单数
+     * @param localDate
+     * @return
+     */
+    Double getNumOfCompletedOrderToday(LocalDate localDate);
 }
