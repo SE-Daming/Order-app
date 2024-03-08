@@ -1,11 +1,13 @@
 package com.sky.service.impl;
 
 import com.sky.constant.StatusConstant;
+import com.sky.mapper.DishMapper;
 import com.sky.mapper.OrdersMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.mapper.UserMapper;
 import com.sky.service.WorkspaceService;
 import com.sky.vo.BusinessDataVO;
+import com.sky.vo.DishOverViewVO;
 import com.sky.vo.SetmealOverViewVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     UserMapper userMapper;
     @Autowired
     SetmealMapper setmealMapper;
+    @Autowired
+    DishMapper dishMapper;
 
     /**
      * 查询今天的运营数据
@@ -74,5 +78,22 @@ public class WorkspaceServiceImpl implements WorkspaceService {
                 .sold(sold)
                 .build();
         return setmealOverViewVO;
+    }
+
+    /**
+     * 菜品总览
+     */
+    @Override
+    public DishOverViewVO dishOverView() {
+        Integer discontinued=dishMapper.getNumOfStatus(StatusConstant.DISABLE);
+        discontinued=(discontinued==null?0:discontinued);
+
+        Integer sold=dishMapper.getNumOfStatus(StatusConstant.ENABLE);
+        sold=(sold==null?0:sold);
+        DishOverViewVO dishOverViewVO=DishOverViewVO.builder()
+                .discontinued(discontinued)
+                .sold(sold)
+                .build();
+        return dishOverViewVO;
     }
 }

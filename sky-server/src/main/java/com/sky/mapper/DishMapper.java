@@ -69,4 +69,11 @@ public interface DishMapper {
      */
     @Select("select price from dish where id=#{dishId}")
     BigDecimal getPriceById(Long dishId);
+
+    /**
+     * 计算给定状态的数量
+     * @return
+     */
+    @Select("select count(*) from dish where status=#{status}")
+    Integer getNumOfStatus(Integer status);
 }
