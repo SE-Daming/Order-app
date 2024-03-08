@@ -164,4 +164,5 @@ public interface OrdersMapper {
     List<TurnoverReportVO> getAmountBetweenTime(String begin, String end);
 
 
+    List<Long> getIdBetweenTime(String begin, String end);
 }

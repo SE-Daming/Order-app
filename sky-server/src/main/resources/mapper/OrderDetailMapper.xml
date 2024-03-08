@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.OrderDetailMapper">
+
+
+    <select id="top10" resultType="com.sky.vo.SalesTop10ReportVO">
+        SELECT name AS nameList, COUNT(*) AS numberList
+        FROM order_detail
+        WHERE order_id IN
+        <foreach item="item" collection="orderId" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        GROUP BY name
+        ORDER BY numberList DESC
+        LIMIT 10
+    </select>
+</mapper>

@@ -1,6 +1,7 @@
 package com.sky.mapper;
 
 import com.sky.entity.OrderDetail;
+import com.sky.vo.SalesTop10ReportVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -34,4 +35,8 @@ public interface OrderDetailMapper {
      */
     @Delete("delete from order_detail where order_id=#{id}")
     void deleteByOrderId(String id);
+
+//    @Select("select name as nameList,count(*)numberList from order_detail where order_id in #{orderId}  group by name" +
+//            "order by numberList desc limit 10")
+    List<SalesTop10ReportVO> top10(List<Long> orderId);
 }

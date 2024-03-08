@@ -1,10 +1,13 @@
 package com.sky.service.impl;
 
+import com.sky.entity.OrderDetail;
 import com.sky.entity.Orders;
+import com.sky.mapper.OrderDetailMapper;
 import com.sky.mapper.OrdersMapper;
 import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
+import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +28,9 @@ public class ReportServiceImpl implements ReportService {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    OrderDetailMapper orderDetailMapper;
 
     /**
      * 订单统计
@@ -170,5 +176,36 @@ public class ReportServiceImpl implements ReportService {
                 .build();
 
         return userReportVO;
+    }
+
+    /**
+     * 销量top10统计
+     * 1、找出时间范围内的订单
+     * 2、找出订单明细的top 10
+     */
+    @Override
+    public SalesTop10ReportVO saleStatistics(String begin, String end) {
+        //找出符合条件的订单、应该是已完成状态
+        List<Long>orderId=ordersMapper.getIdBetweenTime(begin,end);
+        //找出明细集合
+        List<SalesTop10ReportVO>salesTop10ReportVOList=orderDetailMapper.top10(orderId);
+        StringBuilder nameList=new StringBuilder();
+        StringBuilder numberList=new StringBuilder();
+        for(int i=0;i<salesTop10ReportVOList.size();i++){
+            SalesTop10ReportVO salesTop10ReportVO=salesTop10ReportVOList.get(i);
+            if(i==0){
+                nameList.append(salesTop10ReportVO.getNameList());
+                numberList.append(salesTop10ReportVO.getNumberList());
+            }
+            else {
+                nameList.append(","+salesTop10ReportVO.getNameList());
+                numberList.append(","+salesTop10ReportVO.getNumberList());
+            }
+        }
+        SalesTop10ReportVO salesTop10ReportVO=SalesTop10ReportVO.builder()
+                .nameList(String.valueOf(nameList))
+                .numberList(String.valueOf(numberList))
+                .build();
+        return salesTop10ReportVO;
     }
 }
