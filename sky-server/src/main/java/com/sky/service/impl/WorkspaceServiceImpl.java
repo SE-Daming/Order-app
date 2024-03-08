@@ -8,6 +8,7 @@ import com.sky.mapper.UserMapper;
 import com.sky.service.WorkspaceService;
 import com.sky.vo.BusinessDataVO;
 import com.sky.vo.DishOverViewVO;
+import com.sky.vo.OrderOverViewVO;
 import com.sky.vo.SetmealOverViewVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +85,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
      * 菜品总览
      */
     @Override
-    public DishOverViewVO dishOverView() {
+    public DishOverViewVO dishOverview() {
         Integer discontinued=dishMapper.getNumOfStatus(StatusConstant.DISABLE);
         discontinued=(discontinued==null?0:discontinued);
 
@@ -95,5 +96,36 @@ public class WorkspaceServiceImpl implements WorkspaceService {
                 .sold(sold)
                 .build();
         return dishOverViewVO;
+    }
+
+    /**
+     * 订单数据管理
+     */
+    @Override
+    public OrderOverViewVO orderOverview() {
+        Integer waitingOrders=ordersMapper.getNumOfStatus(2);
+        waitingOrders=(waitingOrders==null?0:waitingOrders);
+
+        Integer deliveredOrders=ordersMapper.getNumOfStatus(3);
+        deliveredOrders=(deliveredOrders==null?0:deliveredOrders);
+
+        Integer completedOrders=ordersMapper.getNumOfStatus(5);
+        completedOrders=(completedOrders==null?0:completedOrders);
+
+        Integer cancelledOrders=ordersMapper.getNumOfStatus(6);
+        cancelledOrders=(cancelledOrders==null?0:cancelledOrders);
+
+        Integer allOrders=ordersMapper.getNumOfStatus(null);
+        allOrders=(allOrders==null?0:allOrders);
+
+        OrderOverViewVO orderOverViewVO= OrderOverViewVO.builder()
+                .waitingOrders(waitingOrders)
+                .deliveredOrders(deliveredOrders)
+                .completedOrders(completedOrders)
+                .cancelledOrders(cancelledOrders)
+                .allOrders(allOrders)
+                .build();
+        log.info("订单数据:{}",orderOverViewVO);
+        return orderOverViewVO;
     }
 }

@@ -133,5 +133,13 @@
         select count(*)totalOrderCount from orders where date (order_time)=#{localDate} and status=5
     </select>
 
+<!--    给定状态的订单数量统计-->
+    <select id="getNumOfStatus" resultType="java.lang.Integer">
+        select count(*)from orders
+        <where>
+            <if test="status!=null">status=#{status}</if>
+        </where>
+    </select>
+
 
 </mapper>

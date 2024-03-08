@@ -4,6 +4,7 @@ import com.sky.result.Result;
 import com.sky.service.WorkspaceService;
 import com.sky.vo.BusinessDataVO;
 import com.sky.vo.DishOverViewVO;
+import com.sky.vo.OrderOverViewVO;
 import com.sky.vo.SetmealOverViewVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,7 +40,14 @@ public class WorkspaceController {
     @GetMapping("overviewDishes")
     @ApiOperation(value = "菜品总览")
     public Result<DishOverViewVO>dishOverView(){
-        DishOverViewVO dishOverViewVO=workspaceService.dishOverView();
+        DishOverViewVO dishOverViewVO=workspaceService.dishOverview();
         return Result.success(dishOverViewVO);
+    }
+
+    @GetMapping("overviewOrders")
+    @ApiOperation(value = "订单数据管理")
+    public Result<OrderOverViewVO>orderOverview(){
+        OrderOverViewVO orderOverViewVO=workspaceService.orderOverview();
+        return Result.success(orderOverViewVO);
     }
 }

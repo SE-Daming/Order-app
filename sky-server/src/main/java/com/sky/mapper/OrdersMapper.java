@@ -200,4 +200,6 @@ public interface OrdersMapper {
      * @return
      */
     Double getNumOfCompletedOrderToday(LocalDate localDate);
+
+    Integer getNumOfStatus(Integer status);
 }
