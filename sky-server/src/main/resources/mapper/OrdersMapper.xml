@@ -110,7 +110,7 @@
 
 <!--    找出时间范围内的订单id并且订单状态是已完成-->
     <select id="getIdBetweenTime" resultType="java.lang.Long">
-        select id from orders where status=5 and order_time between #{begin} and #{end}
+        select id from orders where status=5 and date (order_time) between #{begin} and #{end}
     </select>
 
 <!--    计算给定时间天的营业额-->

@@ -187,6 +187,9 @@ public class ReportServiceImpl implements ReportService {
     public SalesTop10ReportVO saleStatistics(String begin, String end) {
         //找出符合条件的订单、应该是已完成状态
         List<Long>orderId=ordersMapper.getIdBetweenTime(begin,end);
+        if(orderId.size()==0){
+            return new SalesTop10ReportVO();// size为0的话调用mapper接口会报错、另外注意和null的区别
+        }
         //找出明细集合
         List<SalesTop10ReportVO>salesTop10ReportVOList=orderDetailMapper.top10(orderId);
         StringBuilder nameList=new StringBuilder();
